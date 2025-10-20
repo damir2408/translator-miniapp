@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translator Mini App</title>
+  <style>
+    body {
+      background-color: #f2f5fa;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #0078ff;
+      font-size: 28px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 70%;
+      margin-top: 20px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 15px;
+      background-color: #0078ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #005fcc;
+    }
+    #result {
+      margin-top: 25px;
+      font-size: 18px;
+      color: #333;
+      min-height: 25px;
+    }
+    footer {
+      margin-top: 40px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌍 TranslatorBot</h1>
+  <p>Введите слово для перевода:</p>
+  <input type="text" id="word" placeholder="например: hello">
+  <br>
+  <button onclick="translateWord()">Перевести</button>
+
+  <div id="result"></div>
+
+  <footer>
+    © 2025 TranslatorBot by Danelia &amp; Damir
+  </footer>
+
+  <script>
+    async function translateWord() {
+      const word = document.getElementById("word").value.trim();
+      if (!word) {
+        document.getElementById("result").innerText = "Введите слово!";
+        return;
+      }
+
+      try {
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ru&dt=t&q=${encodeURIComponent(word)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        const translated = data[0][0][0];
+        document.getElementById("result").innerText = "Перевод: " + translated;
+      } catch (e) {
+        document.getElementById("result").innerText = "Ошибка перевода 😔";
+      }
+    }
+  </script>
+</body>
+</html>
